@@ -1118,7 +1118,25 @@
     footer { padding: 40px 30px; }
   }
   @media (max-width: 768px) {
-    .nav-links, .nav-whatsapp { display: none; }
+   .nav-links, .nav-whatsapp { display: none; }
+  .nav-links.mobile-open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 60px; left: 0; right: 0;
+    background: rgba(8,8,8,0.98);
+    padding: 28px 30px 32px;
+    gap: 22px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    z-index: 999;
+  }
+  .nav-links.mobile-open li a {
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--white-dim);
+    display: block;
+    padding: 4px 0;
+  }
     .hamburger { display: flex; }
     .hero-logo-large { width: 200px; }
     .services-grid, .suits-grid, .collection-grid { grid-template-columns: 1fr; }
@@ -1685,15 +1703,11 @@
   // Mobile menu toggle
   function toggleMenu() {
     const links = document.querySelector('.nav-links');
-    const wa = document.querySelector('.nav-whatsapp');
-    const isOpen = links.style.display === 'flex';
-    links.style.cssText = isOpen ? '' : 'display:flex;flex-direction:column;position:fixed;top:70px;left:0;right:0;background:rgba(8,8,8,0.98);padding:30px;gap:24px;border-bottom:1px solid rgba(201,168,76,0.15);z-index:999;';
-    wa.style.cssText = isOpen ? '' : 'display:block;margin:0 30px 20px;position:fixed;top:240px;left:0;right:0;z-index:999;';
-    if (!isOpen) {
-      document.querySelectorAll('.nav-links a').forEach(a => {
-        a.addEventListener('click', () => { links.style.cssText = ''; wa.style.cssText = ''; }, { once: true });
-      });
-    }
+    const isOpen = links.classList.contains('mobile-open');
+    links.classList.toggle('mobile-open', !isOpen);
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => links.classList.remove('mobile-open'), { once: true });
+    });
   }
 </script>
 </body>
